@@ -1,0 +1,413 @@
+[
+    {
+        "id": "26883fb7.3556f",
+        "type": "http in",
+        "z": "b082ecbd.c7bc18",
+        "name": "/movil2",
+        "url": "/movil2",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 60,
+        "y": 53,
+        "wires": [
+            [
+                "9e82b82e.63618",
+                "d2157905.23947"
+            ]
+        ]
+    },
+    {
+        "id": "9e82b82e.63618",
+        "type": "template",
+        "z": "b082ecbd.c7bc18",
+        "name": "html",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html lang=\"es\">\n<head><!--url: {{req.url}} host: {{req.headers.host}} -->\n<meta charset=\"utf-8\">\n<meta name=\"description\" content=\"Jejo Control Movil con node-red\">\n<meta name=\"author\" content=\"Jejo(Em50L)\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n</head>\n<body onload=\"setTimeout(function(){ \ndocument.getElementById('screen').src='screen.png?'+new Date().getTime();\n},1000);\">\n\n<div class=\"row justify-content-md-center\">\n<div class=\"col-sm-8\" style=\"min-width: 400px;\">\n<div class=\"panel panel-default\">\n<div class=\"panel-heading\"><h3 class=\"panel-title\">Control Movil <small>(Via Adb)</small></h3></div>\n\n{{new Date().toLocaleTimeString()}}\n<a class=\"btn btn-xs btn-warning\" href=\"?\" data-toggle=\"tooltip\" title=\"Si no refesca pulsa power o menu y luego Enter\">\n<span class=\"glyphicon glyphicon-refresh\"></span><small>{{flow.hora}}</small></a>\n\n<a class=\"btn btn-xs btn-primary\" href=\"?key=KEYCODE_POWER\"><span class=\"glyphicon glyphicon glyphicon-off\"></span></a>\n<a class=\"btn btn-xs btn-info\" href=\"?key=KEYCODE_WAKEUP\"><span class=\"glyphicon glyphicon-flash\"></span></a>\n<a class=\"btn btn-xs btn-primary\" href=\"?key=KEYCODE_DPAD_UP\"><span class=\"glyphicon glyphicon-arrow-up\"></span></a>\n<a class=\"btn btn-xs btn-primary\" href=\"?key=KEYCODE_DPAD_DOWN\"><span class=\"glyphicon glyphicon-arrow-down\"></span></a>\n<a class=\"btn btn-xs btn-primary\" href=\"?key=KEYCODE_DPAD_LEFT\"><span class=\"glyphicon glyphicon-arrow-left\"></span></a>\n<a class=\"btn btn-xs btn-primary\" href=\"?key=KEYCODE_DPAD_RIGHT\"><span class=\"glyphicon glyphicon-arrow-right\"></span></a>\n<a class=\"btn btn-xs btn-primary\" href=\"?key=KEYCODE_APP_SWITCH\"><span class=\"glyphicon glyphicon-retweet\"></span></a>\n<a class=\"btn btn-xs btn-success\" href=\"?key=KEYCODE_MENU\"><span class=\"glyphicon glyphicon-menu-hamburger\">Menu</a>\n<a class=\"btn btn-xs btn-success\" href=\"?key=KEYCODE_HOME\"><span class=\"glyphicon glyphicon-home\">Home</a>\n<br>\n<a class=\"btn btn-xs btn-warning\" href=\"?unlock\"><span class=\"glyphicon glyphicon-eye-open\"></span>Unlock</a>\n<a class=\"btn btn-xs btn-warning\" href=\"?top\"><span class=\"glyphicon glyphicon-save\"></span></a>\n<a class=\"btn btn-xs btn-default\" href=\"?key=KEYCODE_ENTER\">Enter</a>\n<a class=\"btn btn-xs btn-default\" href=\"?key=KEYCODE_ESCAPE\">Esc</a>\n<a class=\"btn btn-xs btn-default\" href=\"?key=KEYCODE_TAB\"><span class=\"glyphicon glyphicon-arrow-right\">Tab</a>\n<a class=\"btn btn-xs btn-default\" href=\"?key=KEYCODE_BACK\"><span class=\"glyphicon glyphicon-option-horizontal\">Atras</a>\n<a class=\"btn btn-xs btn-danger\" href=\"?cmd=com.android.settings/.Settings\"><span class=\"glyphicon glyphicon-cog\">Sett.</a>\n<a class=\"btn btn-xs btn-danger\" href=\"?cmd=com.android.settings/.TetherSettings\"><span class=\"glyphicon glyphicon-cog\">Tether</a>\n<a class=\"btn btn-xs btn-danger\" href=\"?cmd=android.media.action.IMAGE_CAPTURE\"><span class=\"glyphicon glyphicon-camera\"></a>\n<a class=\"btn btn-xs btn-danger\" href=\"?cmd=com.android.settings/.RadioInfo\"><span class=\"glyphicon glyphicon-signal\"></a>\n\n<script type=\"text/javascript\">\nfunction touch(event){//540 x 980???\n    var x=event.offsetX;var y=event.offsetY;\n    window.location.href=window.location.pathname+\"?touch&x=\"+x+\"&y=\"+y;\n}\n</script>\n\n<br><img id=\"screen\" src=\"\" onclick=\"touch(event);\" style=\"width:800px;\" />  \n\n</div><!--/panel-->\n</div><!--/col-sm-4-->\n</div><!--/row-->\n\n<!-- Bootstrap core JavaScript ================================ -->\n<!-- Placed at the end of the document so the pages load faster -->\n<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script> \n<script>window.jQuery || document.write('<script src=\"/jquery.min.js\"><\\/script>')</script>\n<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>\n\n</body>\n</html>",
+        "output": "str",
+        "x": 201,
+        "y": 53,
+        "wires": [
+            [
+                "3a3a1625.d69c2a"
+            ]
+        ]
+    },
+    {
+        "id": "ddbf8f16.4152c",
+        "type": "http response",
+        "z": "b082ecbd.c7bc18",
+        "name": "",
+        "statusCode": "",
+        "headers": {
+            "content-type": "image/png",
+            "Cache-Control": "no-cache"
+        },
+        "x": 422,
+        "y": 248,
+        "wires": []
+    },
+    {
+        "id": "6baef52b.2424fc",
+        "type": "comment",
+        "z": "b082ecbd.c7bc18",
+        "name": "Gestion Movil via ADB /  ADB Phone Control ",
+        "info": "https://developer.amazon.com/es/docs/catalog/test-launcher-integration-with-adb.html\nhttps://gist.github.com/Pulimet/5013acf2cd5b28e55036c82c91bd56d8\n\nhttps://www.growingwiththeweb.com/2014/01/handy-adb-commands-for-android.html\nhttps://developer.android.com/studio/command-line/adb\nhttp://android.magicer.xyz/tools/help/shell.html\nhttps://developer.android.com/reference/android/view/KeyEvent\n\nadb-shell-input-events\nhttps://stackoverflow.com/questions/7789826/adb-shell-input-events\n\nDesbloquear pantalla\nhttps://stackoverflow.com/questions/29072501/how-to-unlock-android-phone-through-adb\nadb shell input keyevent 82 && adb shell input keyevent 66\n\nCapturar pantalla\nhttps://stackoverflow.com/questions/27766712/using-adb-to-capture-the-screen\n\nhttps://github.com/mattwilson1024/android-pattern-unlock/blob/master/unlock.sh\n\nPara capturar eventos\nhttps://www.softteco.com/blog/android-writing-events-low-level-touch-screen-automated-shell-test-part-1/\n\ndesbloquear pantalla\nadb shell \"input keyevent 82 ; input swipe 80 880 80 380 ; screencap -p /sdcard/screencap.png\" ; adb pull /sdcard/screencap.png ; convert screencap.png -quality 70 -resize 50% screencap.jpg\n\nBoton home????\nadb shell -n am start -a android.intent.action.MAIN -c android.intent.category.HOME\n\n\n¿otra forma de enviar eventos?\nhttps://www.softteco.com/blog/android-decoding-click-low-level-event/\n\nlanzar aplicaciones\nhttps://medium.com/@xabaras/starting-an-activity-via-adb-47119bdf514f\nadb shell am start -a <signin_intent_action>  -n <signin_component> -f <signin_intent_flags> -d <content_uri>\nadb shell monkey -p com.android.settings -c android.intent.category.LAUNCHER 1\n\nCompresion imagenes\nhttps://stackoverflow.com/questions/19153122/image-compression-tools-via-command-line\n\nCodigos teclado\nhttps://stackoverflow.com/questions/11768356/need-table-of-key-codes-for-android-and-presenter\n0 KEYCODE_UNKNOWN\n1 KEYCODE_MENU\n2 KEYCODE_SOFT_RIGHT\n3 KEYCODE_HOME\n4 KEYCODE_BACK\n5 KEYCODE_CALL\n6 KEYCODE_ENDCALL\n\n7 KEYCODE_0\n8 KEYCODE_1\n9 KEYCODE_2\n10 KEYCODE_3\n11 KEYCODE_4\n12 KEYCODE_5\n13 KEYCODE_6\n14 KEYCODE_7\n15 KEYCODE_8\n16 KEYCODE_9\n\n17 KEYCODE_STAR\n18 KEYCODE_POUND\n\n19 KEYCODE_DPAD_UP\n20 KEYCODE_DPAD_DOWN\n21 KEYCODE_DPAD_LEFT\n22 KEYCODE_DPAD_RIGHT\n23 KEYCODE_DPAD_CENTER\n24 KEYCODE_VOLUME_UP\n25 KEYCODE_VOLUME_DOWN\n\n26 KEYCODE_POWER\n27 KEYCODE_CAMERA\n28 KEYCODE_CLEAR\n\n29 KEYCODE_A\n30 KEYCODE_B\n31 KEYCODE_C\n32 KEYCODE_D\n33 KEYCODE_E\n34 KEYCODE_F\n35 KEYCODE_G\n36 KEYCODE_H\n37 KEYCODE_I\n38 KEYCODE_J\n39 KEYCODE_K\n40 KEYCODE_L\n41 KEYCODE_M\n42 KEYCODE_N\n43 KEYCODE_O\n44 KEYCODE_P\n45 KEYCODE_Q\n46 KEYCODE_R\n47 KEYCODE_S\n48 KEYCODE_T\n49 KEYCODE_U\n50 KEYCODE_V\n51 KEYCODE_W\n52 KEYCODE_X\n53 KEYCODE_Y\n54 KEYCODE_Z\n\n55 KEYCODE_COMMA\n56 KEYCODE_PERIOD\n57 KEYCODE_ALT_LEFT\n58 KEYCODE_ALT_RIGHT\n59 KEYCODE_SHIFT_LEFT\n60 KEYCODE_SHIFT_RIGHT\n\n61 KEYCODE_TAB\n62 KEYCODE_SPACE\n63 KEYCODE_SYM\n64 KEYCODE_EXPLORER\n65 KEYCODE_ENVELOPE\n\n66 KEYCODE_ENTER\n67 KEYCODE_DEL\n68 KEYCODE_GRAVE\n69 KEYCODE_MINUS\n\n70 KEYCODE_EQUALS\n71 KEYCODE_LEFT_BRACKET\n72 KEYCODE_RIGHT_BRACKET\n73 KEYCODE_BACKSLASH\n74 KEYCODE_SEMICOLON\n75 KEYCODE_APOSTROPHE\n76 KEYCODE_SLASH\n77 KEYCODE_AT\n78 KEYCODE_NUM\n79 KEYCODE_HEADSETHOOK\n80 KEYCODE_FOCUS\n81 KEYCODE_PLUS\n\n82 KEYCODE_MENU\n83 KEYCODE_NOTIFICATION\n84 KEYCODE_SEARCH\n85 TAG_LAST_KEYCODE\n\n\n\nandroid adb commands Nibiru Launcher Override \n*some of these work with root access only\n\n// shop device ip address\nadb shell ip addr show\n// or \nadb shell ip addr show wlan0\n\n// take screenshot and save file to users folder (on pc, C:\\Users\\username)\n$ adb shell \"screencap -p\" | sed 's/\\r$//' > screen.png\n// https://stackpointer.io/mobile/android-screen-capture-using-adb/525/\n\n// send key commands\nhttps://stackoverflow.com/questions/7789826/adb-shell-input-events\n\nview logcat\n> adb logcat\nlogcat with only lines with these words\n> adb logcat -s Unity ActivityManager PackageManager dalvikvm DEBUG\n\nget list of activities (look for launcher see, android.intent.category.HOME)\n> adb shell dumpsys activity\n\nopen wifi settings menu from commandline\n> adb shell am start -a android.intent.action.MAIN -n com.android.settings/.Settings\n\nenable/disable wifi from adb\n> adb shell svc wifi enable\n\nreboot from commandline\n> adb reboot\n\nremove default launcher from nibiru vr phone\n> adb shell\n> pm block com.nibiru.launcher3d\n\nre-enable\n> adb shell\n> pm unblock com.nibiru.launcher3d\n\nrun app from adb shell (1 is main activity)\n> monkey -p com.package.name 1\n\nmodify net config (to connect automatically into certain ssid)\n> adb pull /data/misc/wifi/wpa_supplicant.conf\nedit conf\n> adb push wpa_supplicant.conf /data/misc/wifi/wpa_supplicant.conf\n\n\nProblems\n- Phone starts and stuck in startup image: Do you have any launcher apps?\n- Cannot start wifi (after editing config file) : set owner and permissions to conf file:\n> adb shell chown system.wifi /data/misc/wifi/wpa_supplicant.conf\n> adb shell chmod 660 /data/misc/wifi/wpa_supplicant.conf\n- \"Error: java.lang.SecurityException: Permission Denial: attempt to change component state\": run as root> adb root",
+        "x": 180,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "661afc4.b2eda04",
+        "type": "http in",
+        "z": "b082ecbd.c7bc18",
+        "name": "/screen.png",
+        "url": "/screen.png",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 270,
+        "wires": [
+            [
+                "9db90230.bca0a"
+            ]
+        ]
+    },
+    {
+        "id": "64ad174f.371248",
+        "type": "file in",
+        "z": "b082ecbd.c7bc18",
+        "name": "file",
+        "filename": "screen-or8.png",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 318,
+        "y": 248,
+        "wires": [
+            [
+                "ddbf8f16.4152c"
+            ]
+        ]
+    },
+    {
+        "id": "404fe41e.852e04",
+        "type": "http response",
+        "z": "b082ecbd.c7bc18",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 412,
+        "y": 53,
+        "wires": []
+    },
+    {
+        "id": "b7948297.d9ef",
+        "type": "exec",
+        "z": "b082ecbd.c7bc18",
+        "command": "adb -d shell -n ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "9",
+        "oldrc": false,
+        "name": "adb",
+        "x": 302,
+        "y": 162,
+        "wires": [
+            [
+                "7eaaddc6.e31404"
+            ],
+            [
+                "7eaaddc6.e31404",
+                "17ab74fe.f8d87b"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "79f71b16.1b67fc",
+        "type": "change",
+        "z": "b082ecbd.c7bc18",
+        "name": "x,y",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"input tap \" & msg.req.query.x & \" \" & msg.req.query.y",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 130,
+        "wires": [
+            [
+                "b7948297.d9ef"
+            ]
+        ]
+    },
+    {
+        "id": "7eaaddc6.e31404",
+        "type": "debug",
+        "z": "b082ecbd.c7bc18",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 417,
+        "y": 136,
+        "wires": []
+    },
+    {
+        "id": "78d21533.a198ec",
+        "type": "debug",
+        "z": "b082ecbd.c7bc18",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 350,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "3a3a1625.d69c2a",
+        "type": "delay",
+        "z": "b082ecbd.c7bc18",
+        "name": "0.5s",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 307,
+        "y": 53,
+        "wires": [
+            [
+                "404fe41e.852e04"
+            ]
+        ]
+    },
+    {
+        "id": "86763592.555eb",
+        "type": "change",
+        "z": "b082ecbd.c7bc18",
+        "name": "key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"input keyevent \" & msg.req.query.key",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 98,
+        "wires": [
+            [
+                "b7948297.d9ef"
+            ]
+        ]
+    },
+    {
+        "id": "5ae77513.86f1e4",
+        "type": "change",
+        "z": "b082ecbd.c7bc18",
+        "name": "cmd",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"am start \" & msg.req.query.cmd",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 162,
+        "wires": [
+            [
+                "b7948297.d9ef"
+            ]
+        ]
+    },
+    {
+        "id": "17ab74fe.f8d87b",
+        "type": "function",
+        "z": "b082ecbd.c7bc18",
+        "name": "hora",
+        "func": "flow.set('hora',new Date().toLocaleTimeString());\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 418,
+        "y": 169,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d2157905.23947",
+        "type": "switch",
+        "z": "b082ecbd.c7bc18",
+        "name": "cmd?",
+        "property": "req.query",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "jsonata_exp",
+                "v": "$exists(req.query.key)",
+                "vt": "jsonata"
+            },
+            {
+                "t": "jsonata_exp",
+                "v": "$exists(req.query.touch)",
+                "vt": "jsonata"
+            },
+            {
+                "t": "jsonata_exp",
+                "v": "$exists(req.query.cmd)",
+                "vt": "jsonata"
+            },
+            {
+                "t": "jsonata_exp",
+                "v": "$exists(req.query.unlock)",
+                "vt": "jsonata"
+            },
+            {
+                "t": "jsonata_exp",
+                "v": "$exists(req.query.top)",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 65,
+        "y": 155,
+        "wires": [
+            [
+                "86763592.555eb"
+            ],
+            [
+                "79f71b16.1b67fc"
+            ],
+            [
+                "5ae77513.86f1e4"
+            ],
+            [
+                "b40a29e9.1d40b8"
+            ],
+            [
+                "788938a6.eaa2e"
+            ]
+        ]
+    },
+    {
+        "id": "b40a29e9.1d40b8",
+        "type": "change",
+        "z": "b082ecbd.c7bc18",
+        "name": "unlock",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "input keyevent 26 && adb shell input touchscreen swipe 9 400 9 9",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 194,
+        "wires": [
+            [
+                "b7948297.d9ef"
+            ]
+        ]
+    },
+    {
+        "id": "788938a6.eaa2e",
+        "type": "change",
+        "z": "b082ecbd.c7bc18",
+        "name": "top",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "input touchscreen swipe 0 0 0 400",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 179,
+        "y": 226,
+        "wires": [
+            [
+                "b7948297.d9ef"
+            ]
+        ]
+    },
+    {
+        "id": "9db90230.bca0a",
+        "type": "exec",
+        "z": "b082ecbd.c7bc18",
+        "command": "adb -d shell -n \"rm /sdcard/screen.png ; screencap -p /sdcard/screen.png\" ; adb -d pull /sdcard/screen.png ; pngquant --speed 11 -v -f --quality=60 screen.png",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "9",
+        "oldrc": false,
+        "name": "Cap.",
+        "x": 203,
+        "y": 270,
+        "wires": [
+            [
+                "64ad174f.371248",
+                "78d21533.a198ec"
+            ],
+            [
+                "78d21533.a198ec"
+            ],
+            []
+        ]
+    }
+]
